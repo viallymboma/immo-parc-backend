@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 
@@ -13,7 +14,7 @@ async function bootstrap() {
   // Enable CORS for all origins
   app.enableCors({
     // origin: '*', // Allow requests from any origin
-    origin: ['http://localhost:3000', '*'], // Allow the frontend origin
+    origin: ['http://localhost:3000', 'https://immo-parc-frontend.vercel.app', '*'], // Allow the frontend origin
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allow these HTTP methods
     credentials: true, // Allow credentials (e.g., cookies, authorization headers)
   });
