@@ -32,6 +32,7 @@ export class AuthController {
   async login(@Body() body: { phone: string; password: string }, @Res() res: Response) {
     const { phone, password } = body;
     const userInfo = await this.authService.validateUser(phone, password);
+    
     const accessToken = await this.authService.login(userInfo)
     // Set the cookie with the token
     res.cookie('jwt', accessToken, {
@@ -54,23 +55,17 @@ export class AuthController {
   @Get('me')
   @UseGuards(JwtAuthGuard) // Ensures the user is authenticated
   async getProfile(@Req() req: Request, @Res() res: Response) {
-    // console.log(req, req.cookies.jwt, req.headers, "hhhhhhhhhhhh"); 
     const extractToken: string = req.cookies.jwt
     const userInfo: any = await this.jwtService.verify(extractToken, { secret: 'your_jwt_secret' });
-    // console.log(userInfo, "hhhhhhuserInfohhhhhh"); 
     return res.status(200).json({ message: 'Login successful', userInfo }); // Return the user object set by the JWT strategy
   }
 
   @Get('verify-token')
   async verifyToken(@Headers('authorization') authHeader: string): Promise<{ valid: boolean; message: string; }> {
-    // console.log(authHeader, "hhdgdgffs", authHeader[0]); 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       throw new UnauthorizedException('No token provided');
     }
-
     const token = authHeader.split(' ')[1]; // Extract token from the "Bearer <token>" format
-    // console.log(token, "Token extracted from header");
-
     try {
       const validTkn: any = await this.jwtService.verify(token, { secret: 'your_jwt_secret' });
       console.log(validTkn, "ooppuuttrree"); 

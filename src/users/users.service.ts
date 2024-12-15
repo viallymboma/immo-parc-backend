@@ -20,17 +20,9 @@ export class UsersService {
     @InjectModel(Users.name) private readonly userModel: Model<UsersDocument>,
     @InjectModel(Packages.name) private readonly packageModel: Model<any>
   ) {}
-  // constructor(@InjectModel(Users.name) private readonly userModel: Model<UsersDocument>) {}
-
 
   async createUser(phone: string, password: string, packageId?: string, parentId?: string, email?: string, firstName?: string, lastName?: string): Promise<Users> {
-    // const parent: any = parentId ? await this.userModel.findById(parentId) : null; 
     const parent: any = parentId ? await this.findByPhone(parentId) : null; 
-
-    // await this.findByPhone(phone)
-
-    // const pkg = packageId ? await this.packageModel.findById(packageId) : null;
-
     if (!parent) throw new Error('Parent not found');
 
     // Find the package, either by ID or select the smallest package by level
@@ -135,14 +127,12 @@ export class UsersService {
   }
 
   async findByPhone(phone: string): Promise<UsersDocument | null> {
-    return this.userModel.findOne({ phone })
-      .populate('package')
-      .populate('children').populate('parent').exec(); 
-    // .populate('package')
-    // .populate('parent', 'username email') // Populate parent details
-    // .populate('children', 'username email') // Populate children details
-    // .populate('package', 'name price') // Populate package details
-    // .exec(); // Execute the query and return a promise; 
+    const result = await this.userModel.findOne({ phone })
+    .populate('parent', 'username email') // Populate parent details
+    .populate('children', 'username email') // Populate children details
+    .populate('package', 'name price') // Populate package details
+    .exec(); // Execute the query and return a promise; 
+    return result; 
   }
 
   async findUserById(userId: string): Promise<Users | null> {
