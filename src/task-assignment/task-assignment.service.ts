@@ -21,6 +21,31 @@ export class TaskAssignmentService {
         @InjectModel('Task') private taskModel: Model<Task>,
     ) {}
 
+    // async getTasksForUser(userId: string): Promise<TaskAssignment[]> {
+    //     const taskAssignments = await this.taskAssignmentModel
+    //         .find({ user: userId })
+    //         .populate('task'); // Populate the task field
+    //     return taskAssignments;
+    // }
+
+    async getTasksForUser(userId: string): Promise<TaskAssignment[]> {
+        const today = new Date();
+        const startOfDay = new Date(today.setHours(0, 0, 0, 0));
+        const endOfDay = new Date(today.setHours(23, 59, 59, 999));
+    
+        const taskAssignments = await this.taskAssignmentModel
+            .find({
+                user: userId,
+                createdAt: { $gte: startOfDay, $lte: endOfDay }, // Filter by today's date
+            })
+            .populate('task').populate({
+                path: 'packageId',
+            }); // Populate the page field
+    
+        return taskAssignments;
+    }
+    
+
     async assignTaskToUser(userId: string, taskId: string): Promise<TaskAssignment> {
 
         const user = await this.userModel.findById(userId).populate('package');

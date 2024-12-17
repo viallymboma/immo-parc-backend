@@ -128,9 +128,9 @@ export class UsersService {
 
   async findByPhone(phone: string): Promise<UsersDocument | null> {
     const result = await this.userModel.findOne({ phone })
-    .populate('parent', 'username email') // Populate parent details
-    .populate('children', 'username email') // Populate children details
-    .populate('package', 'name price') // Populate package details
+    .populate('parent') // Populate parent details
+    .populate('children') // Populate children details
+    .populate('package') // Populate package details
     .exec(); // Execute the query and return a promise; 
     return result; 
   }
