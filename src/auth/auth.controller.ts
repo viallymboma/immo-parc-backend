@@ -46,10 +46,10 @@ export class AuthController {
 
     res.cookie('jwt', accessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production', // Secure cookies in production
+      secure: true, // Secure cookies in production
       maxAge: 3600000, // Cookie expiration time (e.g., 1 hour)
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Required for cross-site cookies in production
-      domain: process.env.NODE_ENV === 'production' ? 'immo-parc-frontend.vercel.app' : 'localhost:3000', // Set for cross-subdomain use
+      sameSite: 'lax', // Required for cross-site cookies in production
+      domain: 'immo-parc-frontend.vercel.app', // Set for cross-subdomain use
     });
 
     
