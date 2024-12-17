@@ -49,7 +49,7 @@ export class AuthController {
       secure: process.env.NODE_ENV === 'production', // Secure cookies in production
       maxAge: 3600000, // Cookie expiration time (e.g., 1 hour)
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Required for cross-site cookies in production
-      domain: process.env.NODE_ENV === 'production' ? 'https://immo-parc-frontend.vercel.app' : 'http://localhost:3000', // Set for cross-subdomain use
+      domain: process.env.NODE_ENV === 'production' ? 'immo-parc-frontend.vercel.app' : 'localhost:3000', // Set for cross-subdomain use
     });
 
     
