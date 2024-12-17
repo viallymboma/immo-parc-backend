@@ -48,11 +48,10 @@ export class AuthController {
       httpOnly: true,
       secure: true, // Secure cookies in production
       maxAge: 3600000, // Cookie expiration time (e.g., 1 hour)
-      sameSite: 'lax', // Required for cross-site cookies in production
-      domain: 'immo-parc-frontend.vercel.app', // Set for cross-subdomain use
+      sameSite: 'none', // Required for cross-site cookies in production
+      domain: '.vercel.app', // Set for cross-subdomain use
     });
 
-    
     console.log('====================================');
     console.log(userInfo, accessToken);
     console.log('====================================');
