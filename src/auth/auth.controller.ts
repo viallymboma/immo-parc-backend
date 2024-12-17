@@ -38,7 +38,7 @@ export class AuthController {
     res.cookie('jwt', accessToken, {
       httpOnly: true, // Ensures the cookie is accessible only by the web server
       // secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-      // secure: true,
+      secure: true,
       // maxAge: 24 * 60 * 60 * 1000, // Set expiration for the cookie (1 day in ms)
       maxAge: 3600000, // Cookie expiration time (e.g., 1 hour)
       // sameSite: 'strict', // Restrict cookie usage to same site
