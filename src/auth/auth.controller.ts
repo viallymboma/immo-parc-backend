@@ -35,13 +35,21 @@ export class AuthController {
     
     const accessToken = await this.authService.login(userInfo)
     // Set the cookie with the token
+    // res.cookie('jwt', accessToken, {
+    //   httpOnly: true, // Ensures the cookie is accessible only by the web server
+    //   // secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+    //   secure: true,
+    //   // maxAge: 24 * 60 * 60 * 1000, // Set expiration for the cookie (1 day in ms)
+    //   maxAge: 3600000, // Cookie expiration time (e.g., 1 hour)
+    //   // sameSite: 'strict', // Restrict cookie usage to same site
+    // });
+
     res.cookie('jwt', accessToken, {
-      httpOnly: true, // Ensures the cookie is accessible only by the web server
-      // secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-      secure: true,
-      // maxAge: 24 * 60 * 60 * 1000, // Set expiration for the cookie (1 day in ms)
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // Secure cookies in production
       maxAge: 3600000, // Cookie expiration time (e.g., 1 hour)
-      // sameSite: 'strict', // Restrict cookie usage to same site
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Required for cross-site cookies in production
+      domain: process.env.NODE_ENV === 'production' ? 'https://immo-parc-frontend.vercel.app' : 'http://localhost:3000', // Set for cross-subdomain use
     });
 
     
