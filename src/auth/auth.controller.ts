@@ -33,7 +33,9 @@ export class AuthController {
     const { phone, password } = body;
     const userInfo = await this.authService.validateUser(phone, password);
     
-    const accessToken = await this.authService.login(userInfo)
+    const accessToken = await this.authService.login(userInfo); 
+    res.setHeader('Cache-Control', 'no-store');
+
     // Set the cookie with the token
     // res.cookie('jwt', accessToken, {
     //   httpOnly: true, // Ensures the cookie is accessible only by the web server
